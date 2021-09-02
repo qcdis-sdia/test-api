@@ -70,7 +70,7 @@
       get_url:
         timeout: 600
         validate_certs: no
-        url: "{{baseUrl}}/tosca_template/{{provision_id}}"
+        url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
