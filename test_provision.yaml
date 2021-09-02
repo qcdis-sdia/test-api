@@ -27,13 +27,14 @@
         force_basic_auth: yes
         force: yes
         dest: /tmp/tosca_tmp.yaml
-      register: tosca
+
+    - include_vars:
+        file: /tmp/tosca_tmp.yaml
+        name: tosca
+
 
     - debug:
         var: tosca
-
-
-
 
 
 
