@@ -100,12 +100,12 @@
 #        - "compute_1"
 
     - wait_for:
-        host: "{{ provisioned['node_templates'][{{item}}]['attributes']['public_ip']}}"
+        host: "{{item}}"
         port: 22
         state: started
       with_items:
-        - "compute"
-        - "compute_1"
+        - "{{ provisioned['node_templates']['compute']['attributes']['public_ip']}}"
+        - "{{ provisioned['node_templates']['compute_1']['attributes']['public_ip']}}"
 
 
 
