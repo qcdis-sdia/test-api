@@ -34,7 +34,7 @@
         name: tosca
 
     - name: provision
-    - get_url:
+      get_url:
         validate_certs: no
         url: "{{baseUrl}}/provisioner/{{tosca_id}}"
         headers:
