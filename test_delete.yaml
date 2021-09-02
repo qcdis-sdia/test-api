@@ -35,12 +35,11 @@
         var: item['failed']
       loop: "{{ssh_connection['results']}}"
         
-
-   - name: check if vms are deleted
-     fail:
-       msg: VMs are still running
-     when: not item['failed']
-     loop: "{{ssh_connection['results']}}"
+    - name: check if vms are deleted
+      fail:
+        msg: VMs are still running
+      when: not item['failed']
+      loop: "{{ssh_connection['results']}}"
      
 
 
