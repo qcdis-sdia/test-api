@@ -33,18 +33,29 @@
         file: /tmp/tosca_tmp.yaml
         name: tosca
 
-    - name: provision
-      get_url:
-        timeout: 600
-        validate_certs: no
-        url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
-        headers:
-          accept: "text/plain"
-        url_username: "{{ sdia_user }}"
-        url_password: "{{ sdia_password }}"
-        force_basic_auth: yes
-        force: yes
-        dest: /tmp/provision_id
+#    - name: provision
+#      get_url:
+#        timeout: 600
+#        validate_certs: no
+#        url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
+#        headers:
+#          accept: "text/plain"
+#        url_username: "{{ sdia_user }}"
+#        url_password: "{{ sdia_password }}"
+#        force_basic_auth: yes
+#        force: yes
+#        dest: /tmp/provision_id
+
+
+
+    - lineinfile:
+        path: /tmp/provision_id
+        line: '{"id":'
+        insertbefore: BOF
+
+    - lineinfile:
+        path: /tmp/provision_id
+        line: '}'
 
 
     - include_vars:
