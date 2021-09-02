@@ -33,7 +33,7 @@
 
     - debug:
         var: item
-      loop: {{ssh_connection['results']
+      loop: {{ssh_connection['results']}}
         
 
 #    - name: check if vms are deleted
