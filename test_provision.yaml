@@ -63,7 +63,7 @@
         name: provision_id
 
 
-    - name: provision
+    - name: get provisioned tosca
       get_url:
         timeout: 600
         validate_certs: no
@@ -104,8 +104,8 @@
         port: 22
         state: started
       with_items:
-        - "{{ provisioned['node_templates']['compute']['attributes']['public_ip']}}"
-        - "{{ provisioned['node_templates']['compute_1']['attributes']['public_ip']}}"
+        - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
+        - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
 
 
 
