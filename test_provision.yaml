@@ -36,7 +36,7 @@
     - name: provision
       get_url:
         validate_certs: no
-        url: "{{baseUrl}}/provisioner/{{tosca_id}}"
+        url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
