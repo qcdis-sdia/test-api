@@ -32,12 +32,15 @@
 
 
     - debug:
-        var: ssh_connection
+        var: item
+      loop: {{ssh_connection['results']
+        
 
 #    - name: check if vms are deleted
 #      fail:
 #        msg: VMs are still running
 #      when: cmdb_status != "to-be-staged"
+     
 
 
 
