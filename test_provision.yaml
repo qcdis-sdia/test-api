@@ -15,7 +15,7 @@
         user: "{{ sdia_user }}"
         password: "{{ sdia_password }}"
         force_basic_auth: yes
-        status_code: 404
+        status_code: 200
       register: tosca
 
 #    - fail: msg="Bailing out. This play requires 'bar'"
@@ -23,7 +23,7 @@
 
 
     - debug:
-        var: tosca
+        var: tosca.body
 
 
 
