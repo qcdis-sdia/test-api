@@ -108,10 +108,6 @@
         - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
 
 
-    - set_stats:
-        data: "{{ provisioned }}"
-
-
 
 
 
