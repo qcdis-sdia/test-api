@@ -24,8 +24,8 @@
         port: 22
         state: started
       with_items:
-        - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
-        - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
+        - "{{ topology_template['node_templates']['compute']['attributes']['public_ip']}}"
+        - "{{ topology_template['node_templates']['compute_1']['attributes']['public_ip']}}"
       register: ssh_connection
       ignore_errors: yes
 
