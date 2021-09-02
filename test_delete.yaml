@@ -23,6 +23,7 @@
         host: "{{item}}"
         port: 22
         state: started
+        timeout: 30
       with_items:
         - "{{ topology_template['node_templates']['compute']['attributes']['public_ip']}}"
         - "{{ topology_template['node_templates']['compute_1']['attributes']['public_ip']}}"
