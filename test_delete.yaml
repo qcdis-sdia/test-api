@@ -1,0 +1,53 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+    - name: get provisioned tosca
+      get_url:
+        timeout: 600
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/provisioned.yaml
+
+
+    - include_vars:
+        file: /tmp/provisioned.yaml
+        name: provisioned
+
+    - wait_for:
+        host: "{{item}}"
+        port: 22
+        state: started
+      with_items:
+        - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
+        - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
+      register: ssh_connection
+      ignore_errors: yes
+
+
+    - debug:
+        var: ssh_connection
+
+#    - name: check if vms are deleted
+#      fail:
+#        msg: VMs are still running
+#      when: cmdb_status != "to-be-staged"
+
+
+
+
+
+
+
+
+

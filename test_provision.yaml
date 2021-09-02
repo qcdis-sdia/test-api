@@ -106,7 +106,8 @@
       with_items:
         - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
         - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
-        -
+
+
     - set_stats:
         provision_id: "{{ provision_id.id }}"
 
