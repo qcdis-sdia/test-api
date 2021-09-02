@@ -17,7 +17,8 @@
         force_basic_auth: yes
         status_code: 200
 
-    - get_url:
+    - name: check file
+       get_url:
         validate_certs: no
         url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
         headers:
@@ -32,9 +33,24 @@
         file: /tmp/tosca_tmp.yaml
         name: tosca
 
+    - name: provision
+    - get_url:
+        validate_certs: no
+        url: "{{baseUrl}}/provisioner/{{tosca_id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/provision_id
+
+
+    - include_vars:
+        file: /tmp/provision_id
+        name: provision_id
 
     - debug:
-        var: tosca
-
+        var: provision_id
 
 
