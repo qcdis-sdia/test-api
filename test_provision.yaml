@@ -1,4 +1,4 @@
-
+---
 - hosts: localhost
   vars:
     ansible_connection: local
@@ -62,9 +62,6 @@
         file: /tmp/provision_id
         name: provision_id
 
-    - debug:
-        var: provision_id
-
 
     - name: provision
       get_url:
@@ -87,5 +84,32 @@
 
     - debug:
         var: provisioned
+
+
+#    - local_action: copy content={{ provisioned['node_templates']['compute']['attributes']['user_key_pair']['keys']['private_key'] | b64decode }}
+#                    dest=/tmp/test_ec2_private_key
+#                    mode=600
+#
+#
+#    - name: Add new instance to vms host group
+#      add_host:
+#        hostname: "{{ provisioned['node_templates'][{{item}}]['attributes']['public_ip']}}"
+#        groupname: test_vms
+#      with_items:
+#        - "compute"
+#        - "compute_1"
+
+    - wait_for:
+        host: "{{ provisioned['node_templates'][{{item}}]['attributes']['public_ip']}}"
+        port: 22
+        state: started
+      with_items:
+        - "compute"
+        - "compute_1"
+
+
+
+
+
 
 
