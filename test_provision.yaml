@@ -20,7 +20,6 @@
     - get_url:
         validate_certs: no
         url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
-        method: GET
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
