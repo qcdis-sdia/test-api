@@ -109,9 +109,8 @@
 
 
     - set_stats:
-        data:
-          provision_id: "{{ provision_id.id }}"
-
+        data: "{{ provision_id }}"
+      register: provision_id
 
 
 
