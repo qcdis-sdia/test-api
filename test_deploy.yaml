@@ -1,0 +1,66 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+    - name: provision
+      get_url:
+        timeout: 1200
+        validate_certs: no
+        url: "{{baseUrl}}//deployer/deploy/{{provision_id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/deploy_id
+
+
+
+    - lineinfile:
+        path: /tmp/deploy_id
+        line: '{"id":'
+        insertbefore: BOF
+
+    - lineinfile:
+        path: /tmp/deploy_id
+        line: '}'
+
+
+    - include_vars:
+        file: /tmp/deploy_id
+        name: deploy_id
+
+
+    - name: get deploy tosca
+      get_url:
+        timeout: 600
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/{{deploy_id.id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/deploy_id.yaml
+
+
+    - include_vars:
+        file: /tmp/deploy_id.yaml
+        name: deployed
+
+
+    - debug:
+        var: deployed
+
+
+
+
+
+
+
