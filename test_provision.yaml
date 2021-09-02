@@ -16,11 +16,19 @@
         password: "{{ sdia_password }}"
         force_basic_auth: yes
         status_code: 200
+
+    - get_url:
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
+        method: GET
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/tosca_tmp.yaml
       register: tosca
-
-#    - fail: msg="Bailing out. This play requires 'bar'"
-#        when: bar is undefined
-
 
     - debug:
         var: tosca
