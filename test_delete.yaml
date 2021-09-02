@@ -10,7 +10,7 @@
     - name: delete
       uri:
         validate_certs: no
-        url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
+        url: "{{baseUrl}}/tosca_template/{{id}}"
         method: DELETE
         headers:
           accept: "text/plain"
