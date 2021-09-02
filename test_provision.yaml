@@ -1,0 +1,28 @@
+
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name:  check the tosca template that will be used
+      uri:
+        url: {{baseUrl}}/tosca_template/{{tosca_id}}
+        method: GET
+        headers:
+          accept: "text/plain"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        status_code: 200
+      register: tosca
+
+
+    - debug:
+        var: tosca
+
+
+
+
+
+
