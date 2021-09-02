@@ -6,11 +6,11 @@
 
   tasks:
 
-    - name: provision
+    - name: deploy
       get_url:
         timeout: 1200
         validate_certs: no
-        url: "{{baseUrl}}//deployer/deploy/{{provision_id}}"
+        url: "{{baseUrl}}//deployer/deploy/{{id}}"
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
@@ -52,12 +52,14 @@
 
     - include_vars:
         file: /tmp/deploy_id.yaml
-        name: deployed
-
-
+        name: deploy_id
+        
     - debug:
-        var: deployed
+        var: deploy_id
 
+    - set_stats:
+        data: "{{ deploy_id }}"
+      register: deploy_id
 
 
 
