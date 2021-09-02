@@ -6,23 +6,18 @@
 
   tasks:
 
-    - name: get provisioned tosca
-      get_url:
-        timeout: 600
+
+    - name: delete
+      uri:
         validate_certs: no
         url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
+        method: DELETE
         headers:
           accept: "text/plain"
-        url_username: "{{ sdia_user }}"
-        url_password: "{{ sdia_password }}"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
         force_basic_auth: yes
-        force: yes
-        dest: /tmp/provisioned.yaml
-
-
-    - include_vars:
-        file: /tmp/provisioned.yaml
-        name: provisioned
+        status_code: 200
 
     - wait_for:
         host: "{{item}}"
