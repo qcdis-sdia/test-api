@@ -23,7 +23,7 @@
 
 
     - debug:
-        var: tosca.body
+        var: tosca
 
 
 
