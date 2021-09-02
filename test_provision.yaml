@@ -35,6 +35,7 @@
 
     - name: provision
       get_url:
+        timeout: 600
         validate_certs: no
         url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
         headers:
@@ -52,5 +53,28 @@
 
     - debug:
         var: provision_id
+
+
+    - name: provision
+      get_url:
+        timeout: 600
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/{{provision_id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/provisioned.yaml
+
+
+    - include_vars:
+        file: /tmp/provisioned.yaml
+        name: provisioned
+
+
+    - debug:
+        var: provisioned
 
 
