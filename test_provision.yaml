@@ -7,7 +7,7 @@
   tasks:
     - name:  check the tosca template that will be used
       uri:
-        url: {{baseUrl}}/tosca_template/{{tosca_id}}
+        url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
         method: GET
         headers:
           accept: "text/plain"
