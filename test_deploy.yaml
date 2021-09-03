@@ -60,7 +60,7 @@
         
     - debug:
         var: item
-      loop: "{{ topology_template['node_templates'] | dict2items }}"   
+      loop: "{{ deployment | dict2items }}"   
 #       when: "'kubernetes' in topology_template['node_templates']"
         
     - wait_for:
