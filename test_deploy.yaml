@@ -85,8 +85,8 @@
         data: "{{ deployment }}"
         
     - debug:
-        var: deployment
-#       loop: "{{ deployment['node_templates'] | dict2items }}"   
+        var: deployment['topology_template']['node_templates']['kubernetes']
+#       loop: "{{ deployment['topology_template']['node_templates']['kubernetes'] | dict2items }}"   
 #       when: "'kubernetes' in item.value['node_templates'].kubernetes]"
         
     - wait_for:
