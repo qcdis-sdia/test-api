@@ -86,8 +86,8 @@
         
     - debug:
         var: item
-      loop: "{{ deployment | dict2items }}"   
-#       when: "'kubernetes' in topology_template['node_templates']"
+      loop: "{{ deployment['node_templates'] | dict2items }}"   
+#       when: "'kubernetes' in item.value['node_templates'].kubernetes]"
         
     - wait_for:
         host: "{{item | split('://')[1].split(':')[0]}}"
