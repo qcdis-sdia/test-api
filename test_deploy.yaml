@@ -85,7 +85,7 @@
         data: "{{ deployment }}"
         
     - debug:
-        var: item.split('://')[1]
+        var: item.split('://')[1].split(':')[0]
       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
