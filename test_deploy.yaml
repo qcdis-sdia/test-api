@@ -6,52 +6,52 @@
 
   tasks:
 
-    - name: deploy
-      get_url:
-        timeout: 1200
-        validate_certs: no
-        url: "{{baseUrl}}/deployer/deploy/{{id}}"
-        headers:
-          accept: "text/plain"
-        url_username: "{{ sdia_user }}"
-        url_password: "{{ sdia_password }}"
-        force_basic_auth: yes
-        force: yes
-        dest: /tmp/deploy_id
+#     - name: deploy
+#       get_url:
+#         timeout: 1200
+#         validate_certs: no
+#         url: "{{baseUrl}}/deployer/deploy/{{id}}"
+#         headers:
+#           accept: "text/plain"
+#         url_username: "{{ sdia_user }}"
+#         url_password: "{{ sdia_password }}"
+#         force_basic_auth: yes
+#         force: yes
+#         dest: /tmp/deploy_id
 
 
 
-    - lineinfile:
-        path: /tmp/deploy_id
-        line: '{"id":'
-        insertbefore: BOF
+#     - lineinfile:
+#         path: /tmp/deploy_id
+#         line: '{"id":'
+#         insertbefore: BOF
 
-    - lineinfile:
-        path: /tmp/deploy_id
-        line: '}'
-
-
-    - include_vars:
-        file: /tmp/deploy_id
-        name: deploy_id
+#     - lineinfile:
+#         path: /tmp/deploy_id
+#         line: '}'
 
 
-    - set_fact:
-        random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+#     - include_vars:
+#         file: /tmp/deploy_id
+#         name: deploy_id
+
+
+#     - set_fact:
+#         random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
           
           
-    - name: get deploy tosca
-      get_url:
-        timeout: 600
-        validate_certs: no
-        url: "{{baseUrl}}/tosca_template/{{deploy_id.id}}"
-        headers:
-          accept: "text/plain"
-        url_username: "{{ sdia_user }}"
-        url_password: "{{ sdia_password }}"
-        force_basic_auth: yes
-        force: yes
-        dest: /tmp/{{random_name}}_deployment.yaml
+#     - name: get deploy tosca
+#       get_url:
+#         timeout: 600
+#         validate_certs: no
+#         url: "{{baseUrl}}/tosca_template/{{deploy_id.id}}"
+#         headers:
+#           accept: "text/plain"
+#         url_username: "{{ sdia_user }}"
+#         url_password: "{{ sdia_password }}"
+#         force_basic_auth: yes
+#         force: yes
+#         dest: /tmp/{{random_name}}_deployment.yaml
 
 
     - include_vars:
