@@ -81,6 +81,9 @@
         file: /tmp/{{random_name}}_deployment.yaml
         name: deployment
         
+    - set_stats:
+        data: "{{ deployment }}"
+        
     - debug:
         var: item
       loop: "{{ deployment | dict2items }}"   
