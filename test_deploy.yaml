@@ -6,75 +6,75 @@
 
   tasks:
   
-#     - find:
-#         paths: /tmp/
-#         patterns: "deploy_id"
-#         age: 3d
-#       register: older_files
+    - find:
+        paths: /tmp/
+        patterns: "deploy_id"
+        age: 3d
+      register: older_files
 
-#     - file:
-#         path: "{{ item.path }}"
-#         state: absent
-#       with_items: "{{ older_files.files }}"
+    - file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ older_files.files }}"
       
-#     - find:
-#         paths: /tmp/
-#         patterns: "*_deployment.yaml"
-#         age: 3d
-#       register: older_files
+    - find:
+        paths: /tmp/
+        patterns: "*_deployment.yaml"
+        age: 3d
+      register: older_files
 
-#     - file:
-#         path: "{{ item.path }}"
-#         state: absent
-#       with_items: "{{ older_files.files }}"  
+    - file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ older_files.files }}"  
   
 
-#     - name: deploy
-#       get_url:
-#         timeout: 1200
-#         validate_certs: no
-#         url: "{{baseUrl}}/deployer/deploy/{{id}}"
-#         headers:
-#           accept: "text/plain"
-#         url_username: "{{ sdia_user }}"
-#         url_password: "{{ sdia_password }}"
-#         force_basic_auth: yes
-#         force: yes
-#         dest: /tmp/deploy_id
+    - name: deploy
+      get_url:
+        timeout: 1200
+        validate_certs: no
+        url: "{{baseUrl}}/deployer/deploy/{{id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/deploy_id
 
-#     - lineinfile:
-#         path: /tmp/deploy_id
-#         line: '{"id":'
-#         insertbefore: BOF
+    - lineinfile:
+        path: /tmp/deploy_id
+        line: '{"id":'
+        insertbefore: BOF
 
-#     - lineinfile:
-#         path: /tmp/deploy_id
-#         line: '}'
+    - lineinfile:
+        path: /tmp/deploy_id
+        line: '}'
 
 
-#     - include_vars:
-#         file: /tmp/deploy_id
-#         name: deploy_id
+    - include_vars:
+        file: /tmp/deploy_id
+        name: deploy_id
 
-#     - debug:
-#         var: deploy_id
+    - debug:
+        var: deploy_id
 
-#     - set_fact:
-#         random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+    - set_fact:
+        random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
           
           
-#     - name: get deploy tosca
-#       get_url:
-#         timeout: 600
-#         validate_certs: no
-#         url: "{{baseUrl}}/tosca_template/{{deploy_id.id}}"
-#         headers:
-#           accept: "text/plain"
-#         url_username: "{{ sdia_user }}"
-#         url_password: "{{ sdia_password }}"
-#         force_basic_auth: yes
-#         force: yes
-#         dest: /tmp/{{random_name}}_deployment.yaml
+    - name: get deploy tosca
+      get_url:
+        timeout: 600
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/{{deploy_id.id}}"
+        headers:
+          accept: "text/plain"
+        url_username: "{{ sdia_user }}"
+        url_password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        force: yes
+        dest: /tmp/{{random_name}}_deployment.yaml
 
 
     - include_vars:
@@ -84,10 +84,10 @@
     - set_stats:
         data: "{{ deployment }}"
         
-    - debug:
-        var: item.split('://')[1].split(':')[1]
-      loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
-      when: "'kubernetes' in deployment['topology_template']['node_templates']"
+#     - debug:
+#         var: item.split('://')[1].split(':')[1]
+#       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+#       when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
     - wait_for:
         host: "{{item.split('://')[1].split(':')[0]}}"
