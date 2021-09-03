@@ -57,16 +57,17 @@
     - debug:
         var: item | split('://')[1].split(':')[0]
       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+      when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
     - wait_for:
         host: "{{item | split('://')[1].split(':')[0]}}"
         port: "{{item | split('://')[1].split(':')[1]}}"
         state: started
       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+      when: "'kubernetes' in deployment['topology_template']['node_templates']"
 
     - set_stats:
-        data: "{{ deploy_id }}"
-      register: deploy_id
+        data: "{{ deployment }}"
 
 
 
