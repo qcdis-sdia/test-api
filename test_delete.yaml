@@ -9,40 +9,40 @@
     - debug:
         var: id
 
-#     - name: delete
-#       uri:
-#         validate_certs: no
-#         timeout: 1200
-#         url: "{{baseUrl}}/tosca_template/{{id}}"
-#         method: DELETE
-#         headers:
-#           accept: "text/plain"
-#         user: "{{ sdia_user }}"
-#         password: "{{ sdia_password }}"
-#         force_basic_auth: yes
-#         status_code: 200
+    - name: delete
+      uri:
+        validate_certs: no
+        timeout: 1200
+        url: "{{baseUrl}}/tosca_template/{{id}}"
+        method: DELETE
+        headers:
+          accept: "text/plain"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        status_code: 200
 
-#     - wait_for:
-#         host: "{{item}}"
-#         port: 22
-#         state: started
-#         timeout: 30
-#       with_items:
-#         - "{{ topology_template['node_templates']['compute']['attributes']['public_ip']}}"
-#         - "{{ topology_template['node_templates']['compute_1']['attributes']['public_ip']}}"
-#       register: ssh_connection
-#       ignore_errors: yes
+    - wait_for:
+        host: "{{item}}"
+        port: 22
+        state: started
+        timeout: 30
+      with_items:
+        - "{{ topology_template['node_templates']['compute']['attributes']['public_ip']}}"
+        - "{{ topology_template['node_templates']['compute_1']['attributes']['public_ip']}}"
+      register: ssh_connection
+      ignore_errors: yes
 
 
-#     - debug:
-#         var: item['failed']
-#       loop: "{{ssh_connection['results']}}"
+    - debug:
+        var: item['failed']
+      loop: "{{ssh_connection['results']}}"
         
-#     - name: check if vms are deleted
-#       fail:
-#         msg: VMs are still running
-#       when: not item['failed']
-#       loop: "{{ssh_connection['results']}}"
+    - name: check if vms are deleted
+      fail:
+        msg: VMs are still running
+      when: not item['failed']
+      loop: "{{ssh_connection['results']}}"
      
 
 
