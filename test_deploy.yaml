@@ -47,15 +47,22 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/deploy_id.yaml
+        dest: /tmp/deployment.yaml
 
 
     - include_vars:
-        file: /tmp/deploy_id.yaml
-        name: deploy_id
+        file: /tmp/deployment.yaml
+        name: deployment
         
     - debug:
-        var: deploy_id
+        var: item | split('://')[1].split(':')[0]
+      loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+        
+    - wait_for:
+        host: "{{item | split('://')[1].split(':')[0]}}"
+        port: "{{item | split('://')[1].split(':')[1]}}"
+        state: started
+      loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
 
     - set_stats:
         data: "{{ deploy_id }}"
