@@ -10,7 +10,7 @@
 #       get_url:
 #         timeout: 1200
 #         validate_certs: no
-#         url: "{{baseUrl}}//deployer/deploy/{{id}}"
+#         url: "{{baseUrl}}/deployer/deploy/{{id}}"
 #         headers:
 #           accept: "text/plain"
 #         url_username: "{{ sdia_user }}"
@@ -56,8 +56,8 @@
         
     - debug:
         var: item
-      loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
-      when: "'kubernetes' in deployment['topology_template']['node_templates']"
+      loop: "{{ topology_template['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+      when: "'kubernetes' in topology_template['node_templates']"
         
     - wait_for:
         host: "{{item | split('://')[1].split(':')[0]}}"
