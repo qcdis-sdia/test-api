@@ -56,7 +56,7 @@
         
     - debug:
         var: item
-      loop: "{{ topology_template['node_templates']['kubernetes'] }}"   
+      loop: "{{ topology_template['node_templates']['kubernetes']['attributes'] | dict2items }}"   
 #       when: "'kubernetes' in topology_template['node_templates']"
         
     - wait_for:
