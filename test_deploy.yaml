@@ -85,12 +85,12 @@
         data: "{{ deployment }}"
         
     - debug:
-        var: item.split('://')[1].split(':')[0]
+        var: item.split('://')[1].split(':')[1]
       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
     - wait_for:
-        host: "{{item | split('://')[1].split(':')[0]}}"
+        host: "{{item.split('://')[1].split(':')[0]}}"
         port: "{{item | split('://')[1].split(':')[1]}}"
         state: started
       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
