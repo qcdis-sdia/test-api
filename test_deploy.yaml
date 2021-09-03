@@ -36,6 +36,10 @@
         name: deploy_id
 
 
+    - set_fact:
+        random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+          
+          
     - name: get deploy tosca
       get_url:
         timeout: 600
@@ -47,11 +51,11 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/deployment.yaml
+        dest: /tmp/{{random_name}}_deployment.yaml
 
 
     - include_vars:
-        file: /tmp/deployment.yaml
+        file: /tmp/{{random_name}}_deployment.yaml
         name: deployment
         
     - debug:
