@@ -6,10 +6,11 @@
   tasks:
 
     - mail:
-        host: localhost
-        port: 25
-        to: S.Koulouzis@uva.nl
+        host: smtp.gmail.com
+        port: 587
+        username: "{{user_name}}"
+        password: "{{password}}"
+        to: "{{send_to}}"
         subject: Ansible-report
         body: System {{ ansible_hostname }} has been successfully provisioned.
-        secure: starttls
 
