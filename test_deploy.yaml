@@ -78,16 +78,12 @@
 
 
     - include_vars:
-        file: /tmp/test_qzls271r_deployment.yaml #/tmp/{{random_name}}_deployment.yaml
+        file: /tmp/{{random_name}}_deployment.yaml
         name: deployment
         
     - set_stats:
         data: "{{ deployment }}"
         
-#     - debug:
-#         var: item.split('://')[1].split(':')[1]
-#       loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
-#       when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
     - wait_for:
         host: "{{item.split('://')[1].split(':')[0]}}"
