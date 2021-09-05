@@ -35,7 +35,7 @@
 
     - name: provision
       get_url:
-        timeout: 600
+        timeout: 2400
         validate_certs: no
         url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
         headers:
@@ -65,7 +65,7 @@
 
     - name: get provisioned tosca
       get_url:
-        timeout: 600
+        timeout: 2400
         validate_certs: no
         url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
         headers:
