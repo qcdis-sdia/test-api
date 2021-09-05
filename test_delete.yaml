@@ -12,7 +12,7 @@
     - name: delete
       uri:
         validate_certs: no
-        timeout: 1200
+        timeout: 2400
         url: "{{baseUrl}}/tosca_template/{{id}}"
         method: DELETE
         headers:
