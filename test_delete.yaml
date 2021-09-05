@@ -37,7 +37,7 @@
         data:
           body: "VMs, are still running. {{ssh_connection}}"
       when: not item['failed']
-#       loop: "{{ssh_connection['results']}}"
+      loop: "{{ssh_connection['results']}}"
       
         
     - name: check if vms are deleted
