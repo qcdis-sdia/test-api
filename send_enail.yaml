@@ -12,5 +12,5 @@
         password: "{{password}}"
         to: "{{send_to}}"
         subject: Ansible-report
-        body: System {{ ansible_hostname }} has been successfully provisioned.
+        body: "{{body}}"
 
