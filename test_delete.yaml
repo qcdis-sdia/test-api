@@ -21,7 +21,7 @@
         password: "{{ sdia_password }}"
         force_basic_auth: yes
         status_code: 200
-#       igonre_erros: yes
+      ignore_errors: yes
         
 
     - wait_for:
