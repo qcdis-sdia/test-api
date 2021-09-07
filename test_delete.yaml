@@ -37,7 +37,7 @@
 
     - set_stats:
         data:
-          body: "VMs, are still running. {{ssh_connection}}"
+          body: "VMs, are still running. {{item}}"
       when: not item['failed']
       loop: "{{ssh_connection['results']}}"
       
