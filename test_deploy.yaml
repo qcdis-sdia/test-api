@@ -104,3 +104,10 @@
         data:
           image_name: "{{ deployment['topology_template']['node_templates']['kaniko']['interfaces']['install_chart']['inputs']['values']['destination'] }}"
         when: "'kaniko' in deployment['topology_template']['node_templates']"
+        
+        
+
+    - set_stats:
+        data:
+          id: "{{deploy_id.id"}}
+        
