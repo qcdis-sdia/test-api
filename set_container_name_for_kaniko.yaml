@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - set_fact:
+        deployment: "{{ deployment|combine({'topology_template': {'node_templates': {'destination': 'cloudcells/cell_name_1'}}}, recursive=True) }}"
+
+
+    - set_stats:
+        data:
+          image_name: "{{ deployment['topology_template']['node_templates']['kaniko']['interfaces']['install_chart']['inputs']['values']['destination'] }}"
+        when: "'kaniko' in deployment['topology_template']['node_templates']"
