@@ -61,6 +61,11 @@
 
     - set_fact:
         random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+        
+    - pause:
+        minutes: 1
+      when: "'kaniko' in deployment['topology_template']['node_templates']"
+    
           
           
     - name: get deploy tosca
