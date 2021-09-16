@@ -114,5 +114,5 @@
 
     - set_stats:
         data:
-          id: "{{deploy_id.id"}}
+          id: "{{deploy_id.id }}"
         
