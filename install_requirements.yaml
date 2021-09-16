@@ -9,6 +9,14 @@
     - package:
         name:
         - yq
+        - python3-pip
+        state: present
+        
+        
+
+    - pip:
+        name:
+        - docker
         state: present
 
 
