@@ -111,18 +111,20 @@
     - set_stats:
         data: "{{ provision_id }}"
       register: provision_id
-
-
-
+      
     - set_stats:
         data: "{{ provisioned }}"
-
-
-
-
+        
     - set_stats:
       data:
-        baseUrl: "{{ baseUrl }}"
+        baseUrl: "{{ baseUrl }}"        
+        
+    - set_stats:
+      data:
         sdia_user: "{{ sdia_user }}"
+        
+    - set_stats:
+      data:
         sdia_password: "{{ sdia_password }}"
+        
         
