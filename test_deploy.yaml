@@ -104,10 +104,10 @@
         - info
         
     - debug:
-        var: item.1
+        var: item.1 | items2dict
       with_subelements:
         - "{{ services_list }}"
-        - info.url
+        - info.url 
         
         
     - debug:
