@@ -96,6 +96,12 @@
     - debug:
         var: item
       loop: "{{ services_list|subelements('info') }}"
+      
+      debug:
+        var: item
+      with_subelements:
+        - "{{ services_list }}"
+        - services_list
         
     - set_fact:
         services_info: "{{ services_info|default([]) + [{ item['info']: value }]}}"
