@@ -97,8 +97,21 @@
         var: item
       loop: "{{ services_list|subelements('info') }}"
       
-      debug:
-        var: item
+    - debug:
+        var: item.0
+      with_subelements:
+        - "{{ services_list }}"
+        - services_list
+        
+    - debug:
+        var: item.1
+      with_subelements:
+        - "{{ services_list }}"
+        - services_list
+        
+        
+    - debug:
+        var: item.2
       with_subelements:
         - "{{ services_list }}"
         - services_list
