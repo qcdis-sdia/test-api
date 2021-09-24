@@ -101,20 +101,20 @@
         var: item.0
       with_subelements:
         - "{{ services_list }}"
-        - services_list
+        - info
         
     - debug:
         var: item.1
       with_subelements:
         - "{{ services_list }}"
-        - services_list
+        - info.url
         
         
     - debug:
         var: item.2
       with_subelements:
         - "{{ services_list }}"
-        - services_list
+        - info
         
     - set_fact:
         services_info: "{{ services_info|default([]) + [{ item['info']: value }]}}"
