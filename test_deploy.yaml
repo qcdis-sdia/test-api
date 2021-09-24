@@ -89,8 +89,8 @@
 #     - set_stats:
 #         data: "{{ deployment }}"
         
-      - set_facts:
-          services_dict: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services']|items2dict(key_name='info', value_name='deployment['topology_template']['node_templates']['kubernetes']['attributes']['services']') }}"
+    - set_facts:
+        services_dict: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services']|items2dict(key_name='info', value_name='deployment['topology_template']['node_templates']['kubernetes']['attributes']['services']') }}"
                                          
         
         
