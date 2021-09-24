@@ -90,7 +90,7 @@
 #         data: "{{ deployment }}"
 
 
-   - set_fact:
+    - set_fact:
         services_list: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services'] }}"
         
         
