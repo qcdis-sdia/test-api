@@ -96,8 +96,8 @@
         services_list: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services'] }}"
         
     - set_fact:
-        urls: "{{ urls + [item.info] }}"
-      loop: "{{ services_list|subelements('info') }}"
+        urls: "{{ urls + [item] }}"
+      loop: "{{ services_list}}"
       
     - debug:
         var: urls     
