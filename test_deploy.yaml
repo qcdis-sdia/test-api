@@ -98,7 +98,9 @@
     - set_fact:
         urls: "{{ urls + [item.info] }}"
       loop: "{{ services_list|subelements('info') }}"
-     
+      
+    - debug:
+        var: urls     
         
     - debug:
         var: item
