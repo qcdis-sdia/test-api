@@ -102,36 +102,24 @@
     - set_fact:
         urls: []
         
-    - debug:
-        var: info
-        
     - name: set urls
       set_fact:
         urls: "{{ urls + [item] }}"
       loop: "{{ info|map(attribute='info')|flatten }}"
-      
-#       all_settings="{{ my_list|map(attribute='settings')|list|flatten|unique }}"
-      
-    - debug:
-        var: urls     
-              
-        
-#     - set_fact:
-#         services_dict: "{{ services_list | items2dict(key_name='info', value_name='services_list') }}"
              
     - wait_for:
-        host: "{{item.split('://')[1].split(':')[0]}}"
-        port: "{{item.split('://')[1].split(':')[1]}}"
+        host: "{{item['url'].split('://')[1].split(':')[0]}}"
+        port: "{{item['url'].split('://')[1].split(':')[1]}}"
         state: started
-      loop: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['service_urls'] }}"   
+      loop: "{{ urls }}"   
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
       
       
     - wait_for:
-        host: "{{item.split('://')[1].split(':')[0]}}"
-        port: "{{item.split('://')[1].split(':')[1]}}"
+        host: "{{item['url'].split('://')[1].split(':')[0]}}"
+        port: "{{item['url'].split('://')[1].split(':')[1]}}"
         state: started
-      loop: "{{ deployment['topology_template']['node_templates']['tic']['attributes']['service_urls'] }}"   
+      loop: "{{ urls }}"   
       when: "'tic' in deployment['topology_template']['node_templates']"
 
 #     - set_stats:
