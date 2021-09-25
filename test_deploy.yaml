@@ -89,32 +89,28 @@
 #     - set_stats:
 #         data: "{{ deployment }}"
 
-
+    - set_fact:
+        urls: []
+        
     - set_fact:
         services_list: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services'] }}"
+        
+    - set_fact:
+        urls: "{{ urls + [item.info] }}"
+      loop: "{{ services_list|subelements('info') }}"
+     
         
     - debug:
         var: item
       loop: "{{ services_list|subelements('info') }}"
       
+
     - debug:
-        var: item.0
+        var: item
       with_subelements:
         - "{{ services_list }}"
-        - info
-        
-    - debug:
-        var: item.1 | items2dict
-      with_subelements:
-        - "{{ services_list }}"
-        - info.url 
-        
-        
-    - debug:
-        var: item.2
-      with_subelements:
-        - "{{ services_list }}"
-        - info
+        - item.ifno
+  
         
     - set_fact:
         services_info: "{{ services_info|default([]) + [{ item['info']: value }]}}"
