@@ -88,16 +88,24 @@
         
 #     - set_stats:
 #         data: "{{ deployment }}"
-
-    - set_fact:
-        urls: []
         
     - set_fact:
         services_list: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services'] }}"
         
     - set_fact:
-        urls: "{{ urls + [item] }}"
+        info: []
+        
+    - set_fact:
+        info: "{{ info + [item] }}"
       loop: "{{ services_list}}"
+      
+    - set_fact:
+        urls: []
+        
+    - set_fact:
+        urls: "{{ urls + [item.url] }}"
+      loop: "{{ info }}"
+      
       
     - debug:
         var: urls     
