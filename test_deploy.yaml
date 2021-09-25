@@ -110,27 +110,7 @@
       
     - debug:
         var: urls     
-        
-    - debug:
-        var: item
-      loop: "{{ services_list|subelements('info') }}"
-      
-
-    - debug:
-        var: item
-      with_subelements:
-        - "{{ services_list }}"
-        - item.ifno
-  
-        
-    - set_fact:
-        services_info: "{{ services_info|default([]) + [{ item['info']: value }]}}"
-      loop: "{{ services_list }}"
-      vars:
-        keys: "{{ item.keys()|difference(['info']) }}"
-        vals: "{{ keys|map('extract', item)|list }}"
-        value: "{{ dict(keys|zip(vals)) }}"
-
+              
         
 #     - set_fact:
 #         services_dict: "{{ services_list | items2dict(key_name='info', value_name='services_list') }}"
