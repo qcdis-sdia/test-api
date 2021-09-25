@@ -102,9 +102,13 @@
     - set_fact:
         urls: []
         
-    - set_fact:
+    - debug:
+        var: info
+        
+    - name: set urls
+      set_fact:
         urls: "{{ urls + item.url }}"
-      loop: "{{ info }}"
+      loop: "{{ info|map(attribute='settings')|list|flatten }}"
       
 #       all_settings="{{ my_list|map(attribute='settings')|list|flatten|unique }}"
       
