@@ -92,6 +92,11 @@
     - set_fact:
         services_list: "{{ deployment['topology_template']['node_templates']['kubernetes']['attributes']['services'] }}"
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
+      
+    - set_fact:
+        urls: "{{ deployment['topology_template']['node_templates']['tic']['attributes']['services'] }}"
+      when: "'tic' in deployment['topology_template']['node_templates']"
+      
         
     - set_fact:
         info: []
@@ -99,14 +104,17 @@
     - set_fact:
         info: "{{ info + [item] }}"
       loop: "{{ services_list}}"
+      when: "'kubernetes' in deployment['topology_template']['node_templates']"
       
     - set_fact:
         urls: []
+      when: "'kubernetes' in deployment['topology_template']['node_templates']"
         
     - name: set urls
       set_fact:
         urls: "{{ urls + [item] }}"
       loop: "{{ info|map(attribute='info')|flatten }}"
+      when: "'kubernetes' in deployment['topology_template']['node_templates']"
              
     - wait_for:
         host: "{{item['url'].split('://')[1].split(':')[0]}}"
