@@ -125,8 +125,8 @@
       
       
     - wait_for:
-        host: "{{item['url'].split('://')[1].split(':')[0]}}"
-        port: "{{item['url'].split('://')[1].split(':')[1]}}"
+        host: "{{item.split('://')[1].split(':')[0]}}"
+        port: "{{item.split('://')[1].split(':')[1]}}"
         state: started
       loop: "{{ urls }}"   
       when: "'tic' in deployment['topology_template']['node_templates']"
