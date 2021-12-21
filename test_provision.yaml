@@ -27,10 +27,10 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/tosca_tmp.yaml
+        dest: /tmp/tosca/tosca_{{random_name}}.yaml
 
     - include_vars:
-        file: /tmp/tosca_tmp.yaml
+        file: /tmp/tosca/tosca_{{random_name}}.yaml
         name: tosca
 
     - name: provision
@@ -44,7 +44,7 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/provision_id
+        dest: /tmp/tosca/provision_id{{random_name}}
       ignore_errors: yes
       register: get_url_output
         
@@ -59,17 +59,17 @@
       when: get_url_output.status_code != 200
 
     - lineinfile:
-        path: /tmp/provision_id
+        path: /tmp/tosca/provision_id{{random_name}}
         line: '{"id":'
         insertbefore: BOF
 
     - lineinfile:
-        path: /tmp/provision_id
+        path: /tmp/tosca/provision_id{{random_name}}
         line: '}'
 
 
     - include_vars:
-        file: /tmp/provision_id
+        file: /tmp/tosca/provision_id{{random_name}}
         name: provision_id
 
 
@@ -84,11 +84,11 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/provisioned.yaml
+        dest: /tmp/tosca/provisioned_{{random_name}}.yaml
       
 
     - include_vars:
-        file: /tmp/provisioned.yaml
+        dest: /tmp/tosca/provisioned_{{random_name}}.yaml
         name: provisioned
 
     - wait_for:
@@ -116,7 +116,8 @@
       
 
     - set_stats:
-        data: "{{ provision_id }}"
+        data: 
+          provision_id: "{{ provision_id }}"
       register: provision_id
       
     - set_stats:
