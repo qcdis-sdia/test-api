@@ -5,7 +5,18 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
-  
+      - set_fact:
+        random_name: "sdia_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+
+    - set_stats:
+        data:
+          random_name: "{{random_name}}"
+          
+    - name: Create tosca directory if it does not exist
+      file:
+        path: /tmp/tosca
+        state: directory
+          
     - name: Download
       get_url:
         timeout: 2400
@@ -14,7 +25,7 @@
         headers:
           accept: "text/plain"
         force: yes
-        dest: /tmp/tosca.yaml
+        dest: /tmp/tosca/tosca_{{random_name}}.yaml
 #       ignore_errors: yes
       register: get_url_output
       
@@ -23,7 +34,7 @@
         var: get_url_output
       
     - name:  upload tosca
-      shell: echo "curl -u {{ sdia_user }}:{{ sdia_password }} --location --request POST {{baseUrl}}/tosca_template"
+      shell: echo "curl -k -u {{ sdia_user }}:{{ sdia_password }} --location --request POST {{baseUrl}}/tosca_template -F file=@/tmp/tosca/tosca_{{random_name}}.yaml"
       register: uri_output
       
     - debug:
