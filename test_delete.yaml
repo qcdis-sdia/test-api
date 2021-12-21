@@ -5,15 +5,12 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
-
-    - debug:
-        var: id
-
-    - name: delete
+ 
+    - name: delete provision_id
       uri:
         validate_certs: no
         timeout: 2400
-        url: "{{baseUrl}}/tosca_template/{{id}}"
+        url: "{{baseUrl}}/tosca_template/{{provision_id}}"
         method: DELETE
         headers:
           accept: "text/plain"
@@ -40,6 +37,35 @@
           body: "VMs, are still running. {{item}}"
       when: not item['failed']
       loop: "{{ssh_connection['results']}}"
+      
+      
+    - name: delete deployment_id
+      uri:
+        validate_certs: no
+        timeout: 2400
+        url: "{{baseUrl}}/tosca_template/{{deployment_id}}"
+        method: DELETE
+        headers:
+          accept: "text/plain"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        status_code: 200
+      ignore_errors: yes
+      
+    - name: delete tosca_id
+      uri:
+        validate_certs: no
+        timeout: 2400
+        url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
+        method: DELETE
+        headers:
+          accept: "text/plain"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        status_code: 200
+      ignore_errors: yes
       
         
     - name: check if vms are deleted
