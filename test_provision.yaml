@@ -44,9 +44,19 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
+        ignore_errors: yes
         dest: /tmp/provision_id
+        register: get_url_output
+        
+    - set_stats:
+          data:
+            body: "Provision Failed. {{get_url_output}}"
+        when: get_url_output.status_code == 200
 
-
+    - name: Example using fail and when together
+      fail:
+        msg: "Provision Failed. {{get_url_output}}"
+      when: get_url_output.status_code == 200
 
     - lineinfile:
         path: /tmp/provision_id
@@ -75,29 +85,11 @@
         force_basic_auth: yes
         force: yes
         dest: /tmp/provisioned.yaml
-
+      
 
     - include_vars:
         file: /tmp/provisioned.yaml
         name: provisioned
-
-
-    - debug:
-        var: provisioned
-
-
-#    - local_action: copy content={{ provisioned['node_templates']['compute']['attributes']['user_key_pair']['keys']['private_key'] | b64decode }}
-#                    dest=/tmp/test_ec2_private_key
-#                    mode=600
-#
-#
-#    - name: Add new instance to vms host group
-#      add_host:
-#        hostname: "{{ provisioned['node_templates'][{{item}}]['attributes']['public_ip']}}"
-#        groupname: test_vms
-#      with_items:
-#        - "compute"
-#        - "compute_1"
 
     - wait_for:
         host: "{{item}}"
