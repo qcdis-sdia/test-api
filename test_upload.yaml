@@ -23,7 +23,7 @@
         var: get_url_output
       
     - name:  upload tosca
-      shell: echo "curl -u {{ sdia_user }}:{{ sdia_password }}"
+      shell: echo "curl -u {{ sdia_user }}:{{ sdia_password }} --location --request POST {{baseUrl}}/tosca_template"
       register: uri_output
       
     - debug:
