@@ -10,7 +10,7 @@
       get_url:
         timeout: 2400
         validate_certs: no
-        url: "{{tosca_url}"
+        url: "{{tosca_url}}"
         headers:
           accept: "text/plain"
         force: yes
