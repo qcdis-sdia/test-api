@@ -122,7 +122,8 @@
         delay: 10
       loop: "{{ urls }}"   
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
-      
+      register: connections
+      ignore_errors: yes
       
     - wait_for:
         host: "{{item.split('://')[1].split(':')[0]}}"
@@ -131,12 +132,29 @@
         delay: 10
       loop: "{{ urls }}"   
       when: "'tic' in deployment['topology_template']['node_templates']"
+      register: connections
+      ignore_errors: yes
+      
 
 #     - set_stats:
 #         data:
 #           image_name: "{{ deployment['topology_template']['node_templates']['kaniko']['interfaces']['install_chart']['inputs']['values']['destination'] }}"
 #         when: "'kaniko' in deployment['topology_template']['node_templates']"
         
+      
+    - set_stats:
+        data:
+          body: "Services are not running after deployment . {{item}}"
+      when: item['failed']
+      loop: "{{connection['results']}}"
+      
+        
+    - name: check if services are running 
+      fail:
+        msg: Services are not running after deployment 
+      when: item['failed']
+      loop: "{{connection['results']}}"
+      
         
 
     - set_stats:
