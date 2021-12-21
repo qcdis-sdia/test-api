@@ -27,7 +27,7 @@
       get_url:
         timeout: 2400
         validate_certs: no
-        url: "{{baseUrl}}/deployer/deploy/{{tosca_id}}"
+        url: "{{baseUrl}}/deployer/deploy/{{provision_id}}"
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
