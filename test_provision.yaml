@@ -16,6 +16,16 @@
         password: "{{ sdia_password }}"
         force_basic_auth: yes
         status_code: 200
+        
+        
+    - set_fact:
+        random_name: "sdia_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+      when: random_name is undefined
+      
+    - set_stats:
+        data:
+          random_name: "{{random_name}}"
+      when: random_name is undefined
 
     - name: check file
       get_url:
