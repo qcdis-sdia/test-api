@@ -88,7 +88,7 @@
       
 
     - include_vars:
-        dest: /tmp/tosca/provisioned_{{random_name}}.yaml
+        file: /tmp/tosca/provisioned_{{random_name}}.yaml
         name: provisioned
 
     - wait_for:
