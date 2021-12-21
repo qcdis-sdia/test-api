@@ -1,0 +1,151 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+  
+    - name: Download
+      get_url:
+        timeout: 2400
+        validate_certs: no
+        url: "{{tosca_url}"
+        headers:
+          accept: "text/plain"
+        force: yes
+        dest: /tmp/tosca.yaml
+#       ignore_errors: yes
+      register: get_url_output
+      
+      
+      
+    - name:  upload tosca
+      uri:
+        validate_certs: no
+        url: "{{baseUrl}}/tosca_template/"
+        method: POST
+        headers:
+          Content-Type: "multipart/form-data"
+          accept: */*
+        body_format: form-multipart
+        body:
+          file:
+            filename: tosca.yaml
+            content: "{{ lookup('file', '/tmp/tosca.yaml') }}"
+        user: "{{ sdia_user }}"
+        password: "{{ sdia_password }}"
+        force_basic_auth: yes
+        status_code: 200
+       
+
+#     - name: check file
+#       get_url:
+#         validate_certs: no
+#         url: "{{baseUrl}}/tosca_template/{{tosca_id}}"
+#         headers:
+#           accept: "text/plain"
+#         url_username: "{{ sdia_user }}"
+#         url_password: "{{ sdia_password }}"
+#         force_basic_auth: yes
+#         force: yes
+#         dest: /tmp/tosca_tmp.yaml
+
+#     - include_vars:
+#         file: /tmp/tosca_tmp.yaml
+#         name: tosca
+
+#     - name: provision
+#       get_url:
+#         timeout: 2400
+#         validate_certs: no
+#         url: "{{baseUrl}}/provisioner/provision/{{tosca_id}}"
+#         headers:
+#           accept: "text/plain"
+#         url_username: "{{ sdia_user }}"
+#         url_password: "{{ sdia_password }}"
+#         force_basic_auth: yes
+#         force: yes
+#         dest: /tmp/provision_id
+#       ignore_errors: yes
+#       register: get_url_output
+        
+#     - set_stats:
+#         data:
+#           body: "Provision Failed. {{get_url_output}}"
+#       when: get_url_output.status_code != 200
+
+#     - name: Provision Failed.
+#       fail:
+#         msg: "Provision Failed. {{get_url_output}}"
+#       when: get_url_output.status_code != 200
+
+#     - lineinfile:
+#         path: /tmp/provision_id
+#         line: '{"id":'
+#         insertbefore: BOF
+
+#     - lineinfile:
+#         path: /tmp/provision_id
+#         line: '}'
+
+
+#     - include_vars:
+#         file: /tmp/provision_id
+#         name: provision_id
+
+
+#     - name: get provisioned tosca
+#       get_url:
+#         timeout: 2400
+#         validate_certs: no
+#         url: "{{baseUrl}}/tosca_template/{{provision_id.id}}"
+#         headers:
+#           accept: "text/plain"
+#         url_username: "{{ sdia_user }}"
+#         url_password: "{{ sdia_password }}"
+#         force_basic_auth: yes
+#         force: yes
+#         dest: /tmp/provisioned.yaml
+      
+
+#     - include_vars:
+#         file: /tmp/provisioned.yaml
+#         name: provisioned
+
+#     - wait_for:
+#         host: "{{item}}"
+#         port: 22
+#         state: started
+#       with_items:
+#         - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
+#         - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"  
+#       register: ssh_connection
+#       ignore_errors: yes
+      
+#     - set_stats:
+#         data:
+#           body: "VMs, are not running. {{item}}"
+#       when: item['failed']
+#       loop: "{{ssh_connection['results']}}"
+      
+        
+#     - name: check if vms are running 
+#       fail:
+#         msg: VMs are still running
+#       when: item['failed']
+#       loop: "{{ssh_connection['results']}}"
+      
+
+#     - set_stats:
+#         data: "{{ provision_id }}"
+#       register: provision_id
+      
+#     - set_stats:
+#         data: "{{ provisioned }}"
+        
+#     - set_stats:
+#         data:
+#           baseUrl: "{{ baseUrl }}"        
+#           sdia_user: "{{ sdia_user }}"
+#           sdia_password: "{{ sdia_password }}" 
