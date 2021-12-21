@@ -119,6 +119,7 @@
         host: "{{item['url'].split('://')[1].split(':')[0]}}"
         port: "{{item['url'].split('://')[1].split(':')[1]}}"
         state: started
+        delay: 10
       loop: "{{ urls }}"   
       when: "'kubernetes' in deployment['topology_template']['node_templates']"
       
@@ -127,6 +128,7 @@
         host: "{{item.split('://')[1].split(':')[0]}}"
         port: "{{item.split('://')[1].split(':')[1]}}"
         state: started
+        delay: 10
       loop: "{{ urls }}"   
       when: "'tic' in deployment['topology_template']['node_templates']"
 
