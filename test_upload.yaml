@@ -23,22 +23,7 @@
         var: get_url_output
       
     - name:  upload tosca
-      uri:
-        validate_certs: no
-        url: "{{baseUrl}}/tosca_template/"
-        method: POST
-        headers:
-          Content-Type: "multipart/form-data"
-          accept: "*/*"
-        body_format: form-multipart
-        body:
-          file:
-            filename: tosca.yaml
-            content: "{{ lookup('file', '/tmp/tosca.yaml') }}"
-        user: "{{ sdia_user }}"
-        password: "{{ sdia_password }}"
-        force_basic_auth: yes
-        status_code: 200
+      shell: curl -u "{{ sdia_user }}":"{{ sdia_password }}" --location --request POST "{{baseUrl}}/tosca_template/" --header 'Content-Type: multipart/form-data' --header 'accept: */*' --form 'file=@"/tmp/tosca.yaml"' validate_certs: no
       register: uri_output
       
     - debug:
