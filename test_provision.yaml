@@ -51,12 +51,12 @@
     - set_stats:
         data:
           body: "Provision Failed. {{get_url_output}}"
-      when: get_url_output.status_code == 200
+      when: get_url_output.status_code != 200
 
-    - name: Example using fail and when together
+    - name: Provision Failed.
       fail:
         msg: "Provision Failed. {{get_url_output}}"
-      when: get_url_output.status_code == 200
+      when: get_url_output.status_code != 200
 
     - lineinfile:
         path: /tmp/provision_id
@@ -97,8 +97,23 @@
         state: started
       with_items:
         - "{{ provisioned['topology_template']['node_templates']['compute']['attributes']['public_ip']}}"
-        - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"
-
+        - "{{ provisioned['topology_template']['node_templates']['compute_1']['attributes']['public_ip']}}"  
+      register: ssh_connection
+      ignore_errors: yes
+      
+    - set_stats:
+        data:
+          body: "VMs, are not running. {{item}}"
+      when: item['failed']
+      loop: "{{ssh_connection['results']}}"
+      
+        
+    - name: check if vms are running 
+      fail:
+        msg: VMs are still running
+      when: item['failed']
+      loop: "{{ssh_connection['results']}}"
+      
 
     - set_stats:
         data: "{{ provision_id }}"
