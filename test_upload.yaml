@@ -16,6 +16,14 @@
       file:
         path: /tmp/tosca
         state: directory
+        
+        
+    - find:
+        paths: /tmp/tosca/
+        patterns: "*"
+        age: 3d
+      register: older_files
+      
           
     - name: Download
       get_url:
