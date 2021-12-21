@@ -34,7 +34,7 @@
         var: get_url_output
       
     - name:  upload tosca
-      shell: echo "curl -k -u {{ sdia_user }}:{{ sdia_password }} --location --request POST {{baseUrl}}/tosca_template -F file=@/tmp/tosca/tosca_{{random_name}}.yaml"
+      shell: curl -k -u {{ sdia_user }}:{{ sdia_password }} --location --request POST {{baseUrl}}/tosca_template -F file=@/tmp/tosca/tosca_{{random_name}}.yaml
       register: uri_output
       
     - debug:
