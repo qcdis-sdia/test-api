@@ -51,3 +51,5 @@
     - set_stats:
         data:
           tosca_id: "{{uri_output.stdout}}"
+          sdia_user: "{{sdia_user}}"
+          sdia_password: "{{sdia_password}}"
