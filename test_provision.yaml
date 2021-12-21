@@ -103,14 +103,14 @@
       
     - set_stats:
         data:
-          body: "VMs, are not running. {{item}}"
+          body: "VMs, are not running after deployment . {{item}}"
       when: item['failed']
       loop: "{{ssh_connection['results']}}"
       
         
     - name: check if vms are running 
       fail:
-        msg: VMs are still running
+        msg: VMs are not running after deployment 
       when: item['failed']
       loop: "{{ssh_connection['results']}}"
       
