@@ -44,9 +44,9 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        ignore_errors: yes
         dest: /tmp/provision_id
-        register: get_url_output
+      ignore_errors: yes
+      register: get_url_output
         
     - set_stats:
         data:
