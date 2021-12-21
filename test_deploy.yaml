@@ -6,8 +6,13 @@
 
   tasks:
   
+    - name: Create tosca directory if it does not exist
+      file:
+        path: /tmp/tosca
+        state: directory
+        
     - find:
-        paths: /tmp/
+        paths: /tmp/tosca/
         patterns: "deploy_id"
         age: 3d
       register: older_files
@@ -16,31 +21,20 @@
         path: "{{ item.path }}"
         state: absent
       with_items: "{{ older_files.files }}"
-      
-    - find:
-        paths: /tmp/
-        patterns: "*_deployment.yaml"
-        age: 3d
-      register: older_files
-
-    - file:
-        path: "{{ item.path }}"
-        state: absent
-      with_items: "{{ older_files.files }}"  
-  
+       
 
     - name: deploy
       get_url:
         timeout: 2400
         validate_certs: no
-        url: "{{baseUrl}}/deployer/deploy/{{id}}"
+        url: "{{baseUrl}}/deployer/deploy/{{tosca_id}}"
         headers:
           accept: "text/plain"
         url_username: "{{ sdia_user }}"
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/deploy_id
+        dest: /tmp/tosca/deploy_id_{{random_name}}
       ignore_errors: yes
       register: get_url_output
         
@@ -56,29 +50,21 @@
       
 
     - lineinfile:
-        path: /tmp/deploy_id
+        path: /tmp/tosca/deploy_id_{{random_name}}
         line: '{"id":'
         insertbefore: BOF
 
     - lineinfile:
-        path: /tmp/deploy_id
+        path: /tmp/tosca/deploy_id_{{random_name}}
         line: '}'
 
 
     - include_vars:
-        file: /tmp/deploy_id
+        file: /tmp/tosca/deploy_id_{{random_name}}
         name: deploy_id
 
     - debug:
-        var: deploy_id
-
-    - set_fact:
-        random_name: "test_{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
-        
-#     - pause:
-#         minutes: 1
-#       when: "'kaniko' in deployment['topology_template']['node_templates']"
-    
+        var: deploy_id    
           
           
     - name: get deploy tosca
@@ -92,11 +78,11 @@
         url_password: "{{ sdia_password }}"
         force_basic_auth: yes
         force: yes
-        dest: /tmp/{{random_name}}_deployment.yaml
+        dest: /tmp/tosca/{{random_name}}_deployment.yaml
 
 
     - include_vars:
-        file: /tmp/{{random_name}}_deployment.yaml
+        file: /tmp/tosca/{{random_name}}_deployment.yaml
         name: deployment
         
     - set_stats:
@@ -153,5 +139,5 @@
 
     - set_stats:
         data:
-          id: "{{deploy_id.id }}"
+          deployment_id: "{{deploy_id.id }}"
         
