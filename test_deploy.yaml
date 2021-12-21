@@ -41,6 +41,19 @@
         force_basic_auth: yes
         force: yes
         dest: /tmp/deploy_id
+      ignore_errors: yes
+      register: get_url_output
+        
+    - set_stats:
+        data:
+          body: "Deploy Failed. {{get_url_output}}"
+      when: get_url_output.status_code != 200
+
+    - name: Deploy Failed.
+      fail:
+        msg: "Deploy Failed. {{get_url_output}}"
+      when: get_url_output.status_code != 200
+      
 
     - lineinfile:
         path: /tmp/deploy_id
