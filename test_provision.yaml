@@ -49,9 +49,9 @@
         register: get_url_output
         
     - set_stats:
-          data:
-            body: "Provision Failed. {{get_url_output}}"
-        when: get_url_output.status_code == 200
+        data:
+          body: "Provision Failed. {{get_url_output}}"
+      when: get_url_output.status_code == 200
 
     - name: Example using fail and when together
       fail:
