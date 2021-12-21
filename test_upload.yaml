@@ -37,6 +37,11 @@
         password: "{{ sdia_password }}"
         force_basic_auth: yes
         status_code: 200
+      register: uri_output
+      
+    - debug:
+        var: uri_output
+     
        
 
 #     - name: check file
