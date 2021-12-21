@@ -152,14 +152,14 @@
         data:
           body: "Services are not running after deployment . {{item}}"
       when: item['failed']
-      loop: "{{connection['results']}}"
+      loop: "{{connections['results']}}"
       
         
     - name: check if services are running 
       fail:
         msg: Services are not running after deployment 
       when: item['failed']
-      loop: "{{connection['results']}}"
+      loop: "{{connections['results']}}"
       
         
 
